@@ -7,9 +7,18 @@ import { AppModule } from './app.module';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
-  const frontendUrls = process.env.FRONTEND_URL?.split(',')
-    .map((url) => url.trim())
-    .filter(Boolean);
+  const configuredFrontendUrls =
+    process.env.FRONTEND_URL?.split(',')
+      .map((url) => url.trim())
+      .filter(Boolean) ?? [];
+  const productionFrontendUrls =
+    process.env.NODE_ENV === 'production'
+      ? [
+          'https://mercatto-market-web.sanerdark.chatgpt.site',
+          'https://saneromachado.github.io',
+        ]
+      : [];
+  const frontendUrls = [...new Set([...configuredFrontendUrls, ...productionFrontendUrls])];
 
   app.setGlobalPrefix('api');
   app.use(helmet());
