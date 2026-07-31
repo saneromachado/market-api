@@ -13,10 +13,7 @@ async function bootstrap(): Promise<void> {
       .filter(Boolean) ?? [];
   const productionFrontendUrls =
     process.env.NODE_ENV === 'production'
-      ? [
-          'https://mercatto-market-web.sanerdark.chatgpt.site',
-          'https://saneromachado.github.io',
-        ]
+      ? ['https://mercatto-market-web.sanerdark.chatgpt.site', 'https://saneromachado.github.io']
       : [];
   const frontendUrls = [...new Set([...configuredFrontendUrls, ...productionFrontendUrls])];
 

@@ -4,6 +4,17 @@ API de um pequeno mercado criada como laboratório para estudar testes de API.
 O projeto permite praticar autenticação, CRUD, validação de contrato, paginação,
 regras de estoque, conflitos, transações e testes automatizados com Playwright.
 
+## Sistema publicado e integração
+
+- Frontend: <https://saneromachado.github.io/mercatto-market-web/>
+- Base REST usada pelo frontend: <https://market-api-njmw.onrender.com/api>
+- Saúde: <https://market-api-njmw.onrender.com/api/health>
+- Swagger: <https://market-api-njmw.onrender.com/docs>
+- Frontend no GitHub: <https://github.com/saneromachado/mercatto-market-web>
+
+Consulte [a documentação completa da integração](docs/INTEGRACAO.md) para
+entender arquitetura, autenticação, CORS, variáveis, deploy e diagnóstico.
+
 ## O que o sistema faz
 
 - Autentica usuários com JWT.
@@ -34,8 +45,11 @@ regras de estoque, conflitos, transações e testes automatizados com Playwright
 ```text
 market-api/
 |-- prisma/
+|   |-- migrations/         # versionamento do banco de produção
 |   |-- schema.prisma       # tabelas, relacionamentos e enums
 |   `-- seed.ts             # usuário e produtos iniciais
+|-- docs/
+|   `-- INTEGRACAO.md       # frontend, API, banco e deploys
 |-- src/
 |   |-- auth/               # login e validação do JWT
 |   |-- categories/         # categorias
@@ -52,6 +66,7 @@ market-api/
 |   `-- helpers.ts
 |-- docker-compose.yml
 |-- playwright.config.ts
+|-- render.yaml             # Blueprint da API e do PostgreSQL no Render
 `-- package.json
 ```
 
@@ -71,10 +86,6 @@ npm --version
 docker --version
 docker compose version
 ```
-
-> Nesta máquina, o Docker ainda não estava instalado durante a criação do
-> projeto. Ele precisa ser instalado antes de executar o banco e os testes
-> integrados.
 
 ## Instalação inicial
 
@@ -661,7 +672,8 @@ Confirme se o seed foi executado:
 npm run db:seed
 ```
 
-Use `admin@market.local` e `admin123`.
+No ambiente local, use `admin@market.local` e `admin123`. Em produção, use a
+senha configurada em `ADMIN_PASSWORD` no Render.
 
 ### Testes não conseguem iniciar a API
 
@@ -709,6 +721,11 @@ Blueprint, inclusive a conexão com o banco e o segredo JWT.
 
 O comando de inicialização aplica as migrations, cria os dados iniciais e
 inicia a API. A verificação de saúde fica disponível em `/api/health`.
+
+O frontend principal é publicado separadamente pelo GitHub Actions em
+<https://saneromachado.github.io/mercatto-market-web/>. A API autoriza essa
+origem no CORS. Consulte [a documentação de integração](docs/INTEGRACAO.md) para
+o fluxo completo e o checklist de publicação.
 
 > O PostgreSQL gratuito do Render é indicado para testes e demonstrações.
 > Consulte os limites atuais do plano antes de usar dados importantes.
