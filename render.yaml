@@ -23,7 +23,7 @@ services:
       - key: JWT_EXPIRES_IN
         value: 1h
       - key: FRONTEND_URL
-        value: https://mercatto-market-web.sanerdark.chatgpt.site
+        value: https://mercatto-market-web.sanerdark.chatgpt.site,https://saneromachado.github.io
       - key: ADMIN_NAME
         value: Administrador
       - key: ADMIN_EMAIL
