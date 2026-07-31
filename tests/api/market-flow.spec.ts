@@ -10,14 +10,14 @@ test.describe('Fluxo completo do mercado', () => {
     let productId = '';
 
     await test.step('cadastrar categoria e produto', async () => {
-      const categoryResponse = await request.post('/categories', {
+      const categoryResponse = await request.post('categories', {
         headers,
         data: { name: `Bebidas ${unique}`, description: 'Criada pelo Playwright' },
       });
       expect(categoryResponse.status()).toBe(201);
       const category = await categoryResponse.json();
 
-      const productResponse = await request.post('/products', {
+      const productResponse = await request.post('products', {
         headers,
         data: {
           name: `Suco de uva ${unique}`,
@@ -33,7 +33,7 @@ test.describe('Fluxo completo do mercado', () => {
       productId = product.id;
       expect(product.stock).toBe(0);
 
-      const duplicateResponse = await request.post('/products', {
+      const duplicateResponse = await request.post('products', {
         headers,
         data: {
           name: 'Produto duplicado',
@@ -48,7 +48,7 @@ test.describe('Fluxo completo do mercado', () => {
     });
 
     await test.step('dar entrada de dez unidades', async () => {
-      const response = await request.post('/inventory/movements', {
+      const response = await request.post('inventory/movements', {
         headers,
         data: {
           productId,
@@ -68,7 +68,7 @@ test.describe('Fluxo completo do mercado', () => {
     });
 
     await test.step('impedir venda acima do estoque', async () => {
-      const response = await request.post('/sales', {
+      const response = await request.post('sales', {
         headers,
         data: {
           paymentMethod: 'PIX',
@@ -84,7 +84,7 @@ test.describe('Fluxo completo do mercado', () => {
 
     let saleId = '';
     await test.step('vender duas unidades e baixar o estoque', async () => {
-      const response = await request.post('/sales', {
+      const response = await request.post('sales', {
         headers,
         data: {
           paymentMethod: 'PIX',
@@ -103,21 +103,21 @@ test.describe('Fluxo completo do mercado', () => {
         total: '23',
       });
 
-      const productResponse = await request.get(`/products/${productId}`, {
+      const productResponse = await request.get(`products/${productId}`, {
         headers,
       });
       await expect(productResponse.json()).resolves.toMatchObject({ stock: 8 });
     });
 
     await test.step('cancelar idempotentemente e devolver o estoque', async () => {
-      const first = await request.post(`/sales/${saleId}/cancel`, { headers });
+      const first = await request.post(`sales/${saleId}/cancel`, { headers });
       expect(first.status()).toBe(201);
       await expect(first.json()).resolves.toMatchObject({ status: 'CANCELLED' });
 
-      const second = await request.post(`/sales/${saleId}/cancel`, { headers });
+      const second = await request.post(`sales/${saleId}/cancel`, { headers });
       expect(second.status()).toBe(201);
 
-      const productResponse = await request.get(`/products/${productId}`, {
+      const productResponse = await request.get(`products/${productId}`, {
         headers,
       });
       await expect(productResponse.json()).resolves.toMatchObject({ stock: 10 });

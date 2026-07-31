@@ -695,3 +695,20 @@ $env:API_BASE_URL = "http://127.0.0.1:NOVA_PORTA/api"
 - Pipeline de integração contínua.
 - Banco isolado e limpeza automática entre testes.
 - Relatórios de vendas e produtos mais vendidos.
+
+## Publicação no Render
+
+O arquivo `render.yaml` cria dois recursos na região de Ohio:
+
+- `market-api`: serviço web Node.js no plano gratuito;
+- `market-db`: banco PostgreSQL no plano gratuito.
+
+No primeiro deploy, o Render solicitará `ADMIN_PASSWORD`. Use uma senha forte,
+com pelo menos 8 caracteres. As demais variáveis são configuradas pelo
+Blueprint, inclusive a conexão com o banco e o segredo JWT.
+
+O comando de inicialização aplica as migrations, cria os dados iniciais e
+inicia a API. A verificação de saúde fica disponível em `/api/health`.
+
+> O PostgreSQL gratuito do Render é indicado para testes e demonstrações.
+> Consulte os limites atuais do plano antes de usar dados importantes.

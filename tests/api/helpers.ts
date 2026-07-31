@@ -1,7 +1,7 @@
 import { APIRequestContext, expect } from '@playwright/test';
 
 export async function loginAsAdmin(request: APIRequestContext): Promise<string> {
-  const response = await request.post('/auth/login', {
+  const response = await request.post('auth/login', {
     data: { email: 'admin@market.local', password: 'admin123' },
   });
   expect(response.status()).toBe(200);

@@ -6,6 +6,7 @@
   "scripts": {
     "build": "nest build",
     "start": "nest start",
+    "start:prod": "prisma migrate deploy && npm run db:seed && node dist/src/main.js",
     "start:dev": "nest start --watch",
     "start:test": "cross-env NODE_ENV=test nest start",
     "lint": "eslint \"{src,tests,prisma}/**/*.{ts,mts}\"",
@@ -17,6 +18,7 @@
     "test:api:list": "playwright test --list",
     "prisma:generate": "prisma generate",
     "db:push": "prisma db push",
+    "db:migrate:deploy": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "setup": "npm run prisma:generate && npm run db:push && npm run db:seed"

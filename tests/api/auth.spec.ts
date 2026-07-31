@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test.describe('Autenticação', () => {
   test('retorna token para credenciais válidas', async ({ request }) => {
-    const response = await request.post('/auth/login', {
+    const response = await request.post('auth/login', {
       data: { email: 'admin@market.local', password: 'admin123' },
     });
     const body = await response.json();
@@ -16,7 +16,7 @@ test.describe('Autenticação', () => {
   });
 
   test('rejeita senha inválida com contrato padronizado', async ({ request }) => {
-    const response = await request.post('/auth/login', {
+    const response = await request.post('auth/login', {
       data: { email: 'admin@market.local', password: 'senha-errada' },
     });
     const body = await response.json();
@@ -31,7 +31,7 @@ test.describe('Autenticação', () => {
   });
 
   test('bloqueia endpoint protegido sem token', async ({ request }) => {
-    const response = await request.get('/products');
+    const response = await request.get('products');
     expect(response.status()).toBe(401);
   });
 });

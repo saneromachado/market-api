@@ -4,13 +4,24 @@ import { hash } from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main(): Promise<void> {
-  const passwordHash = await hash('admin123', 10);
+  const isProduction = process.env.NODE_ENV === 'production';
+  const adminEmail = process.env.ADMIN_EMAIL ?? 'admin@market.local';
+  const adminName = process.env.ADMIN_NAME ?? 'Administrador';
+  const adminPassword = process.env.ADMIN_PASSWORD ?? (isProduction ? undefined : 'admin123');
+
+  if (adminPassword === undefined || adminPassword.length < 8) {
+    throw new Error(
+      'Defina ADMIN_PASSWORD com pelo menos 8 caracteres antes de executar o seed em produção.',
+    );
+  }
+
+  const passwordHash = await hash(adminPassword, 10);
   await prisma.user.upsert({
-    where: { email: 'admin@market.local' },
-    update: { passwordHash, active: true },
+    where: { email: adminEmail },
+    update: { name: adminName, passwordHash, active: true },
     create: {
-      name: 'Administrador',
-      email: 'admin@market.local',
+      name: adminName,
+      email: adminEmail,
       passwordHash,
       role: UserRole.ADMIN,
     },
