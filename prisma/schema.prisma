@@ -11,6 +11,7 @@ enum UserRole {
   ADMIN
   CASHIER
   STOCKER
+  VIEWER
 }
 
 enum MovementType {

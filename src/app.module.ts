@@ -4,6 +4,7 @@ import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 
 import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
+import { ReadOnlyGuard } from './auth/read-only.guard';
 import { CategoriesModule } from './categories/categories.module';
 import { ApiExceptionFilter } from './common/api-exception.filter';
 import { HealthController } from './health.controller';
@@ -25,6 +26,7 @@ import { SalesModule } from './sales/sales.module';
   controllers: [HealthController],
   providers: [
     { provide: APP_GUARD, useClass: AuthGuard },
+    { provide: APP_GUARD, useClass: ReadOnlyGuard },
     { provide: APP_FILTER, useClass: ApiExceptionFilter },
   ],
 })

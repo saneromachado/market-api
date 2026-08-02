@@ -54,6 +54,11 @@ O e-mail inicial é `admin@market.local`. Em produção, a senha é o valor secr
 de `ADMIN_PASSWORD` configurado no Render. A senha local padrão `admin123` não
 deve ser usada em produção.
 
+O usuário `consulta@market.local` usa o perfil `VIEWER` e a senha definida em
+`VIEWER_PASSWORD`. Esse perfil pode autenticar e executar somente requisições de
+leitura. A API responde `403 Forbidden` se ele tentar criar, alterar ou excluir
+dados.
+
 ## CORS
 
 Frontend e backend usam domínios diferentes. Por isso, o navegador exige que a
@@ -88,21 +93,28 @@ access-control-allow-origin: https://saneromachado.github.io
 
 ## Variáveis da API no Render
 
-| Variável         | Origem             | Finalidade                                    |
-| ---------------- | ------------------ | --------------------------------------------- |
-| `NODE_ENV`       | `render.yaml`      | Ativa o modo de produção                      |
-| `NODE_VERSION`   | `render.yaml`      | Define a versão do Node.js usada no build     |
-| `DATABASE_URL`   | `market-db`        | Conexão interna com o PostgreSQL              |
-| `JWT_SECRET`     | Gerada pelo Render | Assina e valida tokens JWT                    |
-| `JWT_EXPIRES_IN` | `render.yaml`      | Tempo de validade do token                    |
-| `FRONTEND_URL`   | `render.yaml`      | Lista adicional de origens permitidas no CORS |
-| `ADMIN_NAME`     | `render.yaml`      | Nome do administrador inicial                 |
-| `ADMIN_EMAIL`    | `render.yaml`      | E-mail do administrador inicial               |
-| `ADMIN_PASSWORD` | Segredo manual     | Senha do administrador inicial                |
+| Variável          | Origem             | Finalidade                                    |
+| ----------------- | ------------------ | --------------------------------------------- |
+| `NODE_ENV`        | `render.yaml`      | Ativa o modo de produção                      |
+| `NODE_VERSION`    | `render.yaml`      | Define a versão do Node.js usada no build     |
+| `DATABASE_URL`    | `market-db`        | Conexão interna com o PostgreSQL              |
+| `JWT_SECRET`      | Gerada pelo Render | Assina e valida tokens JWT                    |
+| `JWT_EXPIRES_IN`  | `render.yaml`      | Tempo de validade do token                    |
+| `FRONTEND_URL`    | `render.yaml`      | Lista adicional de origens permitidas no CORS |
+| `ADMIN_NAME`      | `render.yaml`      | Nome do administrador inicial                 |
+| `ADMIN_EMAIL`     | `render.yaml`      | E-mail do administrador inicial               |
+| `ADMIN_PASSWORD`  | Segredo manual     | Senha do administrador inicial                |
+| `VIEWER_NAME`     | `render.yaml`      | Nome do usuário somente leitura               |
+| `VIEWER_EMAIL`    | `render.yaml`      | E-mail do usuário somente leitura             |
+| `VIEWER_PASSWORD` | Segredo manual     | Senha do usuário somente leitura              |
 
 `ADMIN_PASSWORD` deve ter pelo menos oito caracteres. O seed de produção é
 executado na inicialização e mantém o administrador ativo com a senha definida
 nessa variável.
+
+`VIEWER_PASSWORD` também deve ter pelo menos oito caracteres. Quando essa
+variável está definida, o seed cria ou atualiza `consulta@market.local` com o
+perfil `VIEWER`.
 
 ## Variáveis do frontend
 
@@ -249,7 +261,8 @@ Confira se:
 
 ## Segurança e operação
 
-- Nunca envie `.env`, `DATABASE_URL`, `JWT_SECRET` ou `ADMIN_PASSWORD` ao Git.
+- Nunca envie `.env`, `DATABASE_URL`, `JWT_SECRET`, `ADMIN_PASSWORD` ou
+  `VIEWER_PASSWORD` ao Git.
 - Use uma senha de produção diferente de `admin123`.
 - Trate o banco gratuito como ambiente de estudo ou demonstração.
 - Faça backups antes de armazenar dados importantes.

@@ -30,6 +30,12 @@ services:
         value: admin@market.local
       - key: ADMIN_PASSWORD
         sync: false
+      - key: VIEWER_NAME
+        value: Consulta
+      - key: VIEWER_EMAIL
+        value: consulta@market.local
+      - key: VIEWER_PASSWORD
+        sync: false
 
 databases:
   - name: market-db

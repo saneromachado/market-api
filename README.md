@@ -81,6 +81,17 @@ E-mail: admin@market.local
 Senha: valor secreto de ADMIN_PASSWORD no Render
 ```
 
+O usuário somente leitura usa:
+
+```text
+E-mail: consulta@market.local
+Senha: valor secreto de VIEWER_PASSWORD no Render
+```
+
+O perfil `VIEWER` pode abrir o painel e consultar produtos, categorias, estoque e
+vendas. A API bloqueia criação, alteração, exclusão, movimentação de estoque,
+finalização e cancelamento de vendas.
+
 A senha não fica armazenada no GitHub. Para redefini-la:
 
 1. abra o serviço `market-api` no Render;
@@ -113,15 +124,18 @@ latest commit** no serviço `market-api`.
 
 ## Variáveis de produção
 
-| Variável         | Responsabilidade                         |
-| ---------------- | ---------------------------------------- |
-| `DATABASE_URL`   | Conexão interna com o PostgreSQL         |
-| `JWT_SECRET`     | Assinatura dos tokens JWT                |
-| `JWT_EXPIRES_IN` | Validade dos tokens                      |
-| `FRONTEND_URL`   | Origens adicionais autorizadas pelo CORS |
-| `ADMIN_NAME`     | Nome do administrador inicial            |
-| `ADMIN_EMAIL`    | E-mail do administrador inicial          |
-| `ADMIN_PASSWORD` | Senha secreta do administrador           |
+| Variável          | Responsabilidade                         |
+| ----------------- | ---------------------------------------- |
+| `DATABASE_URL`    | Conexão interna com o PostgreSQL         |
+| `JWT_SECRET`      | Assinatura dos tokens JWT                |
+| `JWT_EXPIRES_IN`  | Validade dos tokens                      |
+| `FRONTEND_URL`    | Origens adicionais autorizadas pelo CORS |
+| `ADMIN_NAME`      | Nome do administrador inicial            |
+| `ADMIN_EMAIL`     | E-mail do administrador inicial          |
+| `ADMIN_PASSWORD`  | Senha secreta do administrador           |
+| `VIEWER_NAME`     | Nome do usuário de consulta              |
+| `VIEWER_EMAIL`    | E-mail do usuário de consulta            |
+| `VIEWER_PASSWORD` | Senha secreta do usuário de consulta     |
 
 As origens de frontend autorizadas são:
 
