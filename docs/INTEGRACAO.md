@@ -91,6 +91,20 @@ A resposta esperada é `204 No Content` com:
 access-control-allow-origin: https://saneromachado.github.io
 ```
 
+## Endpoints de categorias
+
+| Método   | Endpoint               | Regra                                |
+| -------- | ---------------------- | ------------------------------------ |
+| `POST`   | `/api/categories`      | Cria uma categoria                   |
+| `GET`    | `/api/categories`      | Lista categorias e total de produtos |
+| `GET`    | `/api/categories/{id}` | Consulta por ID                      |
+| `PATCH`  | `/api/categories/{id}` | Atualização parcial                  |
+| `PUT`    | `/api/categories/{id}` | Substituição completa                |
+| `DELETE` | `/api/categories/{id}` | Exclusão lógica com `active=false`   |
+
+O `PUT` exige `name`, `description` e `active`. O `DELETE` não remove o registro
+fisicamente, porque produtos podem continuar relacionados à categoria.
+
 ## Variáveis da API no Render
 
 | Variável          | Origem             | Finalidade                                    |

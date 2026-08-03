@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { ReplaceCategoryDto } from './dto/replace-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
@@ -40,6 +41,19 @@ export class CategoriesService {
     } catch (error) {
       this.throwFriendlyDatabaseError(error);
     }
+  }
+
+  async replace(id: string, dto: ReplaceCategoryDto) {
+    await this.findOne(id);
+    try {
+      return await this.prisma.category.update({ where: { id }, data: dto });
+    } catch (error) {
+      this.throwFriendlyDatabaseError(error);
+    }
+  }
+
+  deactivate(id: string) {
+    return this.update(id, { active: false });
   }
 
   private throwFriendlyDatabaseError(error: unknown): never {

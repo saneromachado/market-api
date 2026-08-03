@@ -1,8 +1,19 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { ReplaceCategoryDto } from './dto/replace-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @ApiTags('categories')
@@ -29,5 +40,15 @@ export class CategoriesController {
   @Patch(':id')
   update(@Param('id', ParseUUIDPipe) id: string, @Body() dto: UpdateCategoryDto) {
     return this.categories.update(id, dto);
+  }
+
+  @Put(':id')
+  replace(@Param('id', ParseUUIDPipe) id: string, @Body() dto: ReplaceCategoryDto) {
+    return this.categories.replace(id, dto);
+  }
+
+  @Delete(':id')
+  deactivate(@Param('id', ParseUUIDPipe) id: string) {
+    return this.categories.deactivate(id);
   }
 }

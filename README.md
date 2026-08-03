@@ -47,7 +47,7 @@ flowchart LR
 ## Funcionalidades disponíveis
 
 - autenticação com JWT;
-- cadastro e consulta de categorias;
+- cadastro, consulta, atualização, substituição e inativação de categorias;
 - cadastro, pesquisa, alteração e inativação de produtos;
 - entradas, saídas e ajustes de estoque;
 - histórico de movimentações;
@@ -58,6 +58,19 @@ flowchart LR
 - proteção contra cancelamento duplicado;
 - respostas de erro padronizadas;
 - documentação Swagger/OpenAPI.
+
+### Endpoints de categorias
+
+| Método   | Rota                   | Comportamento                        |
+| -------- | ---------------------- | ------------------------------------ |
+| `POST`   | `/api/categories`      | Cadastra uma categoria               |
+| `GET`    | `/api/categories`      | Lista as categorias                  |
+| `GET`    | `/api/categories/{id}` | Consulta uma categoria               |
+| `PATCH`  | `/api/categories/{id}` | Atualiza parcialmente                |
+| `PUT`    | `/api/categories/{id}` | Substitui todos os campos editáveis  |
+| `DELETE` | `/api/categories/{id}` | Inativa a categoria (`active=false`) |
+
+O `DELETE` é lógico para preservar os produtos relacionados à categoria.
 
 ## Tecnologias publicadas
 
