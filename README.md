@@ -85,7 +85,7 @@ O usuário somente leitura usa:
 
 ```text
 E-mail: consulta@market.local
-Senha: valor secreto de VIEWER_PASSWORD no Render
+Senha: Viewerpassword
 ```
 
 O perfil `VIEWER` pode abrir o painel e consultar produtos, categorias, estoque e
@@ -135,7 +135,7 @@ latest commit** no serviço `market-api`.
 | `ADMIN_PASSWORD`  | Senha secreta do administrador           |
 | `VIEWER_NAME`     | Nome do usuário de consulta              |
 | `VIEWER_EMAIL`    | E-mail do usuário de consulta            |
-| `VIEWER_PASSWORD` | Senha secreta do usuário de consulta     |
+| `VIEWER_PASSWORD` | Senha pública do usuário de consulta     |
 
 As origens de frontend autorizadas são:
 

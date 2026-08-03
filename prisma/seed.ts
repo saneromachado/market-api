@@ -10,7 +10,7 @@ async function main(): Promise<void> {
   const adminPassword = process.env.ADMIN_PASSWORD ?? (isProduction ? undefined : 'admin123');
   const viewerEmail = process.env.VIEWER_EMAIL ?? 'consulta@market.local';
   const viewerName = process.env.VIEWER_NAME ?? 'Consulta';
-  const viewerPassword = process.env.VIEWER_PASSWORD;
+  const viewerPassword = process.env.VIEWER_PASSWORD || 'Viewerpassword';
 
   if (adminPassword === undefined || adminPassword.length < 8) {
     throw new Error(
@@ -30,28 +30,26 @@ async function main(): Promise<void> {
     },
   });
 
-  if (viewerPassword !== undefined) {
-    if (viewerPassword.length < 8) {
-      throw new Error('Defina VIEWER_PASSWORD com pelo menos 8 caracteres.');
-    }
-
-    const viewerPasswordHash = await hash(viewerPassword, 10);
-    await prisma.user.upsert({
-      where: { email: viewerEmail },
-      update: {
-        name: viewerName,
-        passwordHash: viewerPasswordHash,
-        role: UserRole.VIEWER,
-        active: true,
-      },
-      create: {
-        name: viewerName,
-        email: viewerEmail,
-        passwordHash: viewerPasswordHash,
-        role: UserRole.VIEWER,
-      },
-    });
+  if (viewerPassword.length < 8) {
+    throw new Error('Defina VIEWER_PASSWORD com pelo menos 8 caracteres.');
   }
+
+  const viewerPasswordHash = await hash(viewerPassword, 10);
+  await prisma.user.upsert({
+    where: { email: viewerEmail },
+    update: {
+      name: viewerName,
+      passwordHash: viewerPasswordHash,
+      role: UserRole.VIEWER,
+      active: true,
+    },
+    create: {
+      name: viewerName,
+      email: viewerEmail,
+      passwordHash: viewerPasswordHash,
+      role: UserRole.VIEWER,
+    },
+  });
 
   const categoryDefinitions = [
     { name: 'Mercearia', description: 'Alimentos básicos e itens de despensa' },

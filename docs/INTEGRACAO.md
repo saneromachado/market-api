@@ -54,8 +54,8 @@ O e-mail inicial é `admin@market.local`. Em produção, a senha é o valor secr
 de `ADMIN_PASSWORD` configurado no Render. A senha local padrão `admin123` não
 deve ser usada em produção.
 
-O usuário `consulta@market.local` usa o perfil `VIEWER` e a senha definida em
-`VIEWER_PASSWORD`. Esse perfil pode autenticar e executar somente requisições de
+O usuário público `consulta@market.local` usa o perfil `VIEWER` e a senha
+`Viewerpassword`. Esse perfil pode autenticar e executar somente requisições de
 leitura. A API responde `403 Forbidden` se ele tentar criar, alterar ou excluir
 dados.
 
@@ -106,15 +106,15 @@ access-control-allow-origin: https://saneromachado.github.io
 | `ADMIN_PASSWORD`  | Segredo manual     | Senha do administrador inicial                |
 | `VIEWER_NAME`     | `render.yaml`      | Nome do usuário somente leitura               |
 | `VIEWER_EMAIL`    | `render.yaml`      | E-mail do usuário somente leitura             |
-| `VIEWER_PASSWORD` | Segredo manual     | Senha do usuário somente leitura              |
+| `VIEWER_PASSWORD` | `render.yaml`      | Senha pública do usuário somente leitura      |
 
 `ADMIN_PASSWORD` deve ter pelo menos oito caracteres. O seed de produção é
 executado na inicialização e mantém o administrador ativo com a senha definida
 nessa variável.
 
-`VIEWER_PASSWORD` também deve ter pelo menos oito caracteres. Quando essa
-variável está definida, o seed cria ou atualiza `consulta@market.local` com o
-perfil `VIEWER`.
+O seed cria ou atualiza `consulta@market.local` com o perfil `VIEWER`. A senha
+pública padrão é `Viewerpassword` e pode ser substituída por
+`VIEWER_PASSWORD`.
 
 ## Variáveis do frontend
 
@@ -261,8 +261,9 @@ Confira se:
 
 ## Segurança e operação
 
-- Nunca envie `.env`, `DATABASE_URL`, `JWT_SECRET`, `ADMIN_PASSWORD` ou
-  `VIEWER_PASSWORD` ao Git.
+- Nunca envie `.env`, `DATABASE_URL`, `JWT_SECRET` ou `ADMIN_PASSWORD` ao Git.
+- `Viewerpassword` pode ser pública porque pertence exclusivamente ao perfil
+  `VIEWER`, que não possui permissão de escrita.
 - Use uma senha de produção diferente de `admin123`.
 - Trate o banco gratuito como ambiente de estudo ou demonstração.
 - Faça backups antes de armazenar dados importantes.
